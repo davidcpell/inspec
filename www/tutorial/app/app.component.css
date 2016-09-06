@@ -31,9 +31,10 @@
   background-color: #444;
 }
 
-a {
-  color: lightskyblue;
-  text-decoration: none;
+pre {
+  white-space: pre-wrap;
+  line-height: 50px;
+  text-align: center;
 }
 
 .cli {

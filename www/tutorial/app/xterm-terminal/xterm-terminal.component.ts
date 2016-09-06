@@ -155,3 +155,5 @@ export class XtermTerminalComponent implements OnInit {
     }
   }
 }
+
+// TODO: fix some odd behavior with backspace and the buffer, selecting last command and buffer

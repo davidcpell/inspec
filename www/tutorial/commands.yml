@@ -1,0 +1,5 @@
+commands:
+    - inspec version
+    - inspec detect --format json
+    - inspec exec examples/profile --format json
+    - inspec json examples/profile
