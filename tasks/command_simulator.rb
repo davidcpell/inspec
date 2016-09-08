@@ -2,25 +2,36 @@
 require 'train'
 require 'yaml'
 require 'json'
-# require 'github/markup'
+require 'shellwords'
 
-# Load all commands
-counter = 0
-tutorial_file = 'www/tutorial/tutorial.yml'
-tutorial_commands = YAML.load(File.read(tutorial_file))['demos'].map { |x| x['desc'] }.map { |x| x.scan(/```(.*?)```/m) }.flatten.map(&:strip).map { |x| x.split("\n") }.flatten
-tutorial_instructions = YAML.load(File.read(tutorial_file))['demos'].map { |x| [counter += 1, x['desc']] }
+# Load all commands and instructions
+demos = YAML.load(File.read('www/tutorial/tutorial.yml'))['demos']
+commands = demos.map { |x| x['desc'] }.map { |x| x.scan(/```(.*?)```/m) }.flatten.map(&:strip).map { |x| x.split("\n") }
+tutorial_instructions = demos.map { |x| [x['demo'], x['desc']] }
+extra_commands = YAML.load(File.read('www/tutorial/commands.yml'))['commands']
 
-commands_file = 'www/tutorial/commands.yml'
-extra_commands = YAML.load(File.read(commands_file))['commands']
+# find out if we have a single command or a multiline shell command
+cmds = commands.map { |x|
+  cmd = x.join("\n")
+  if cmd.include?('describe')
+    cmd
+  else
+    x
+  end
+}
+tutorial_commands = cmds.flatten
 
-# Pull out shell commands from tutorial
-no_shell_tutorial_commands = tutorial_commands.take(20)
-shell_tutorial_commands = tutorial_commands.drop(20)
+# Pull shell commands out so they can be handled
+# This is currently done by checking if the command includes the word inspec :/
+no_shell_tutorial_commands = tutorial_commands.select { |a| a.include?('inspec') }
+shell_tutorial_commands = tutorial_commands.reject { |a| a.include?('inspec') }
 
-# TEMPORARY: Pull out describe and control blocks, as well as two commands before them
-# I'm having trouble with the ' in those commands
-simple_shell_commands = shell_tutorial_commands.take(5)
-shell_commands = simple_shell_commands.map { |x| 'echo ' + x + ' | inspec shell' }
+# escape the shell commands for echo
+shell_tutorial_commands.map! { |x|
+  Shellwords.escape(x)
+}
+# Add 'echo' and ' | inspec shell' to shell commands to enable inspec shell command functionality
+shell_commands = shell_tutorial_commands.map { |x| 'echo ' + x + ' | inspec shell' }
 
 # Merge the output
 commands = no_shell_tutorial_commands + extra_commands + shell_commands
@@ -29,9 +40,16 @@ commands = no_shell_tutorial_commands + extra_commands + shell_commands
 commands.delete_if { |x| x.include? '-t' }
 commands.delete_if { |x| x.include? '-b' }
 
+# Create key given command
+def create_key(command)
+  formatted_command = command.gsub(/\W/, '_')
+  not_too_long = formatted_command.gsub(/_{2,}/, '_')
+  not_too_long + '.txt'
+end
+
 # Create commands.json file
 commands_file = File.new('www/tutorial/commands.json', 'w')
-json = commands.map { |x| [ x => (x.tr('/', '_') + '.txt') ] }.to_json
+json = commands.map { |x| [x => create_key(x)] }.to_json
 commands_file.write(json)
 puts 'Wrote www/tutorial/commands.json'
 
@@ -54,10 +72,8 @@ commands.each do |command|
   result = cmd.stdout
   dir = 'www/tutorial/app/responses/'
 
-  # replace "/" with "_"
-  key = command.tr('/', '_')
-
-  filename = File.join(dir, "#{key}.txt")
+  key = create_key(command)
+  filename = File.join(dir, key.to_s)
   out_file = File.new(filename, 'w')
   result.lines.each do |line|
     line_to_write = "#{line.chomp}\r\n"

@@ -1,0 +1,21 @@
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: [1mhelp[0m
+
+[0G[?1034h[0;32minspec> [0m[0;32minspec> [0m  [0;32minspec> [0m  [0;32minspec> [0m  [0;32minspec> [0m    [0;32minspec> [0m    [0;32minspec> [0m  => [32m#<#<Class:0x007f8582077948>:0x007f8583676c80[0m
+ @__block[32m=[0m[32m#<Proc:0x007f8583676e10@(pry):1>[0m,
+ @__checks[32m=[0m[[[31m[1;31m"[0m[31mdescribe[1;31m"[0m[31m[0m, [[1;34;4mFile[0m [35m[1;35m/[0m[35mroot[0m], [32m#<Proc:0x007f85834d5110@(pry):4>[0m]],
+ @__code[32m=[0m[31m[1;31m"[0m[31m[1;31m"[0m[31m[0m,
+ @__file[32m=[0m[1;36mnil[0m,
+ @__group_title[32m=[0m[1;36mnil[0m,
+ @__profile_id[32m=[0m[1;36mnil[0m,
+ @__rule_id[32m=[0m[31m[1;31m"[0m[31mid[1;31m"[0m[31m[0m,
+ @__skip_rule[32m=[0m[1;36mnil[0m,
+ @__source_location[32m=[0m{[33m:ref[0m=>[31m[1;31m"[0m[31m(pry)[1;31m"[0m[31m[0m, [33m:line[0m=>[1;34m1[0m},
+ @desc[32m=[0m[1;36mnil[0m,
+ @impact[32m=[0m[1;35m0.5[0m,
+ @refs[32m=[0m[],
+ @tags[32m=[0m{},
+ @title[32m=[0m[31m[1;31m"[0m[31mCheck permissions on /root![1;31m"[0m[31m[0m[32m>[0m
+[0;32minspec> [0m[31m  ✖  id: File /root mode should cmp "0750" (wrong number of arguments (1 for 0))[0m
+
+Summary: [32m0 successful[0m, [31m1 failures[0m, [37m0 skipped[0m

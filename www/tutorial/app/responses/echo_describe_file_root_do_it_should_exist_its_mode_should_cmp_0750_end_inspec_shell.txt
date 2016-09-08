@@ -1,0 +1,7 @@
+Welcome to the interactive InSpec Shell
+To find out how to use it, type: [1mhelp[0m
+
+[0G[?1034h[0;32minspec> [0m[0;32minspec> [0m  [0;32minspec> [0m  [0;32minspec> [0m  => [[[31m[1;31m"[0m[31mdescribe[1;31m"[0m[31m[0m, [[1;34;4mFile[0m [35m[1;35m/[0m[35mroot[0m], [32m#<Proc:0x007fa5fce6e638@(pry):1>[0m]]
+[0;32minspec> [0m[31m  ✖  File /root should exist (expected File /root to exist)[0m
+
+Summary: [32m0 successful[0m, [31m2 failures[0m, [37m0 skipped[0m

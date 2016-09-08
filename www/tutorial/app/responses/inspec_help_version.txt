@@ -1,0 +1,7 @@
+Usage:
+  inspec version
+
+Options:
+  [--diagnose], [--no-diagnose]  # Show diagnostics (versions, configurations)
+
+prints the version of this tool
