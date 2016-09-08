@@ -210,7 +210,9 @@ export class AppComponent implements OnInit {
 
   getInstructions() {
     this.http.get('instructions.json')
-      .subscribe(data => {this.instructionsJson = data['_body']}
+      .subscribe(data => {
+        this.instructionsJson = data['_body']
+      },
     // .subscribe(
     //   data => {
     //     this.instructionsJson = data.map(res => res['_body'])
@@ -230,4 +232,3 @@ export class AppComponent implements OnInit {
     );
   }
 }
-
