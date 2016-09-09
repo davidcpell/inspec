@@ -3,6 +3,8 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { HTTP_PROVIDERS } from '@angular/http';
 import { XtermTerminalComponent } from './xterm-terminal/xterm-terminal.component';
+declare var require: any;
+var shellwords = require("shellwords");
 
 @Component({
   selector: 'my-app',
@@ -94,8 +96,10 @@ export class AppComponent implements OnInit {
       this.response = '';
     }
     else {
-      let cmd = 'echo ' + command + ' . inspec shell';
-      this.checkCommand(cmd);
+      let escaped_cmd = shellwords.escape(command)
+      let regex_compatible = escaped_cmd.replace(/\W/g, '.*');
+      let formatted_cmd = 'echo ' + regex_compatible + ' . inspec shell';
+      this.checkCommand(formatted_cmd);
     }
   }
 
